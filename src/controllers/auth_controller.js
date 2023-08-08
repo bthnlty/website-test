@@ -47,7 +47,7 @@ const login = async (req, res, next) => {
           // If user is not active, activate it
           await User.findOneAndUpdate({ email: currentUser.email }, { isEmailActive: true });
   
-          // Successfull login
+          // Successful login
           req.login(user, (error) => {
             if (error) {
               console.error('Oturum açma hatası', error);
@@ -59,7 +59,7 @@ const login = async (req, res, next) => {
           });
         } else {
           // E-mail address is not verified 
-          req.flash('error', 'Lütfen e-posta adresinizi doğrulayın');
+          req.flash('error', 'Lütfen E-mail adresinizi doğrulayın');
           res.redirect('/login');
           return;
         }
