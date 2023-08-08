@@ -27,13 +27,13 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    password:{
+    password: {
         type: String,
         required: [true, "Şifrenizi giriniz"],
         trim: true,
     },
 
-}, {collection:'Users', timestamps: true});
+}, { collection: 'Users', timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
 

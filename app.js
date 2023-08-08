@@ -23,7 +23,7 @@ const sayac = 0;
 require('./src/config/database');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-const sessionStore= new MongoDBStore({
+const sessionStore = new MongoDBStore({
     uri: process.env.MONGODB_CONNECTION_STRING,
     collection: 'sessions'
 });
@@ -36,7 +36,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 *60 *24,
+        maxAge: 1000 * 60 * 60 * 24,
     },
     store: sessionStore
 }));
@@ -66,17 +66,17 @@ const adminRouter = require('./src/routers/admin_router');
 
 // middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 
 // routes
 app.get('/', (req, res) => {
-    if(req.session.sayac) {
+    if (req.session.sayac) {
         req.session.sayac++;
     } else {
         req.session.sayac = 1;
     }
-    res.json({message: 'Hello', sayac: req.session.sayac, user:req.user});
+    res.json({ message: 'Hello', sayac: req.session.sayac, user: req.user });
 });
 
 app.use('/', authRouter);

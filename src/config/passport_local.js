@@ -8,25 +8,25 @@ module.exports = (passport) => {
     };
     passport.use(new LocalStrategy(options, async (email, password, done) => {
 
-        try{
-            const _foundUser = await User.findOne({email: email});
-            if(!_foundUser){
-                return done(null, false, {message: 'Şifre/Email yanlış'});
+        try {
+            const _foundUser = await User.findOne({ email: email });
+            if (!_foundUser) {
+                return done(null, false, { message: 'Şifre/Email yanlış' });
             }
 
-            if(_foundUser.password !== password){
-                return done(null, false, {message: 'Şifre/Email yanlış'});
-            }else{
+            if (_foundUser.password !== password) {
+                return done(null, false, { message: 'Şifre/Email yanlış' });
+            } else {
                 return done(null, _foundUser);
             }
-        }catch(err){
+        } catch (err) {
             return done(err);
         }
 
 
     }));
 
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser(function (user, done) {
         console.log("Sessiona kaydedildi" + user._id);
         done(null, user._id);
     });
@@ -48,18 +48,18 @@ module.exports = (passport) => {
             done(err, null);
         }
     });
-    
 
-/*
-    passport.deserializeUser(async function (_id, done) {
-        try {
-            console.log("Sessiondan alındı");
-            const user = await User.findById(_id);
-            done(null, user);
-        } catch (err) {
-            done(err, null);
-        }
-    });
-*/ 
+
+    /*
+        passport.deserializeUser(async function (_id, done) {
+            try {
+                console.log("Sessiondan alındı");
+                const user = await User.findById(_id);
+                done(null, user);
+            } catch (err) {
+                done(err, null);
+            }
+        });
+    */
 
 }

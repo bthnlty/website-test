@@ -1,5 +1,5 @@
 const activeUser = (req, res, next) => {
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         next();
     } else {
         req.flash('error', ['Lütfen giriş yapınız'])
@@ -8,7 +8,7 @@ const activeUser = (req, res, next) => {
 }
 
 const unactiveUser = (req, res, next) => {
-    if(!req.isAuthenticated()) {
+    if (!req.isAuthenticated()) {
         next();
     } else {
         res.redirect('/admin');
