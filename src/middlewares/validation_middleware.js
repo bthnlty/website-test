@@ -35,7 +35,15 @@ const validateLogin = () => {
     ];
 }
 
+const validateEmail = () => {
+    return [
+        body('email').trim()
+            .isEmail().withMessage('Geçerli bir email adresi giriniz.')
+    ];
+}
+
 module.exports = {
     validateNewUser,
-    validateLogin
+    validateLogin,
+    validateEmail
 }

@@ -9,9 +9,13 @@ router.post('/login', authMiddleware.unactiveUser, validatorMiddleware.validateL
 router.get('/register', authMiddleware.unactiveUser, authController.showRegisterForm);
 router.post('/register', authMiddleware.unactiveUser, validatorMiddleware.validateNewUser(), authController.register);
 
-
 router.get('/forget-password', authMiddleware.unactiveUser, authController.showForgetPasswordForm);
-router.post('/forget-password', authMiddleware.unactiveUser, authController.forgetPassword);
+router.post('/forget-password', authMiddleware.unactiveUser, validatorMiddleware.validateEmail(), authController.forgetPassword);
+
+router.get('/verify', authController.verifyMail);
+
+router.get('/reset-password/:id/:token', authController.newPasswordForm);
+router.get('/reset-password', authController.newPasswordForm);
 
 router.get('/logout', authMiddleware.activeUser, authController.logout);
 

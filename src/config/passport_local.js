@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user_model');
+const bcrypt = require('bcrypt');
 
 module.exports = (passport) => {
     const options = {
@@ -13,11 +14,15 @@ module.exports = (passport) => {
             if (!_foundUser) {
                 return done(null, false, { message: 'Şifre/Email yanlış' });
             }
-
-            if (_foundUser.password !== password) {
+            const isMatch = await bcrypt.compare(password, _foundUser.password);
+            if (!isMatch) {
                 return done(null, false, { message: 'Şifre/Email yanlış' });
             } else {
-                return done(null, _foundUser);
+                if (_foundUser && _foundUser.isEmailActive == false) {
+                    return done(null, false, { message: 'Lütfen Giriş Yapmak İçin Mailinizi Onaylayın' })
+                } else {
+                    return done(null, _foundUser);
+                }
             }
         } catch (err) {
             return done(err);
@@ -42,24 +47,11 @@ module.exports = (passport) => {
                 };
                 done(null, newUser);
             } else {
-                done(null, false); // Kullanıcı bulunamadıysa, false ile işlemi sonlandırın.
+                done(null, false);
             }
         } catch (err) {
             done(err, null);
         }
     });
-
-
-    /*
-        passport.deserializeUser(async function (_id, done) {
-            try {
-                console.log("Sessiondan alındı");
-                const user = await User.findById(_id);
-                done(null, user);
-            } catch (err) {
-                done(err, null);
-            }
-        });
-    */
 
 }
